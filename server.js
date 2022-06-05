@@ -39,6 +39,8 @@ app.get('/', (req, res) => {
 
 // Require Notes routes
 require('./app/routes/note.routes.js')(app);
+// Require People routes
+require('./app/routes/person.routes.js')(app);
 
 // listen for requests
 app.listen(3000, () => {

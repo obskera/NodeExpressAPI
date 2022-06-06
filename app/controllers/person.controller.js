@@ -1,14 +1,16 @@
+const { exists } = require('../models/person.model.js');
 const Person = require('../models/person.model.js');
 
 // Create and Save a new Note ERRORS ITS NOT WORKING GUYS
 exports.create = async (req, res) => {
-    // Validate request
-    // if(!req.body.name) {
-    //     return res.status(400).send({
-    //         message: "Content can not be empty"
-    //     });
-    // }\
 
+    const isEmpty = async _ => {
+        if (!req.body.name) {
+            res.status(400).send({
+                message: "A Beetle needs a name! Please enter a name in the body of request."
+            })
+        }
+    }
     const makeAndSave = async _ => {
         let named = req.body.name
         //if (Person.exists({name: named})) { res.send('Already exists, use another!')} else {
@@ -33,6 +35,7 @@ exports.create = async (req, res) => {
     const dupeCheck = _ => {
         console.log(req.body.name)
         let arr = []
+        isEmpty()
         Person.find()
             .then(people => {
                 //console.log(Object.keys(people))
@@ -48,21 +51,6 @@ exports.create = async (req, res) => {
             })
     }
     dupeCheck()
-    //dupeCheck()
- 
-
-    //failed async
-    // const checkDupe = async (namePara) =>{
-    //     let exists = await Person.exists({name: namePara})
-    //     console.log(exists)
-    // }
-    // const checkAndMake = async _ => {
-    //     await checkDupe(req.params.name);
-    //     await makeAndSave();
-    // }
-
-    // checkAndMake()
-
 };
 
 // Retrieve and return all people from the database.
@@ -78,36 +66,34 @@ exports.findAll = (req, res) => {
 };
 
 // Find a single person with a name
-exports.findOne = (req, res) => {
-    //Person.findById(req.params.name)
-    Person.find({name: req.params.name})
-    .then(person => {
-        if(!person) {
-            return res.status(404).send({
-                message: "Not found with name " + req.params.name
-            });            
-        }
-        res.send(person);
-    }).catch(err => {
-        if(err.kind === 'ObjectName') {
-            return res.status(404).send({
-                message: "Not found with name " + req.params.name
-            });                
-        }
-        return res.status(500).send({
-            message: "Error retrieving with name " + req.params.name
+exports.findOne = async (req, res) => {
+    Person.findOne({name: req.params.name})
+        .then(person => {
+            console.log(person)
+            if (!person) {
+                res.status(404).send({
+                    message: "Not found with name " + req.params.name
+                });   
+            } else {
+                res.send(person)
+            }
+        })
+        .catch(err => {
+            if(err.kind === 'ObjectName') {
+                return res.status(404).send({
+                    message: "Not found with name " + req.params.name
+                });                
+            }
+            return res.status(500).send({
+                message: "Error retrieving with name " + req.params.name
+            });
         });
-    });
 };
 
 // Update a person identified by the name in the request
 exports.update = async (req, res) => {
-    // Validate Request
-    if(!req.body.name) {
-        return res.status(400).send({
-            message: "Name cannot be empty"
-        });
-    }
+    //method
+    //const updatedPerson = await Person.findOne({name: req.params.name})
     const person = await Person.findOneAndUpdate(
         { name: req.params.name },
         {
@@ -115,95 +101,55 @@ exports.update = async (req, res) => {
           played: req.body.played,
           won: req.body.won
         })
+    const duper = await Person.findOne({name: req.params.name})
+    // Validate Request
+    if(!req.body.name) {
+        return res.status(400).send({
+            message: "Name cannot be empty"
+        });
+    } else if (!duper) {
+        return res.status(404).send({
+            message: "Not found with name " + req.params.name
+        });                
+    } else {
+        person
+        
+        res.send(['Successfully updated!', duper])
+    }
+  
       
-      console.log(person)
-      res.send('Successfully updated!')
 
-    //new Find one and update with req body that still doesnt work
-    // let person = await Person.find({name: req.params.name})
-    // if(!person) {
-    //     return res.status(404).send({ message: "Not found with name " + req.params.name
-    //     });
-    // }
-    // console.log(person)
-    // person["name"] = req.params.name || "Anon"
-    // person["played"] = req.params.played || 0
-    // person["won"] = req.params.won || 0
-    // const doc = await person.save()
-    // console.log(doc)
-    //end
-
-    //non-working new
-    // Person.find({name: req.params.name})
-    //     .then(person => {
-    //         if(!person) {
-    //             return res.status(404).send({
-    //                 message: "Not found with name " + req.params.name
-    //             });
-    //         }
-    //         person["name"] = req.body.name || "Anon"
-    //         person["played"] = req.body.played || 0
-    //         person["won"] = req.body.won || 0
-    //         person.save()
-    //         res.send(person);
-    //     }).catch(err => {
-    //         if(err.kind === 'ObjectName') {
-    //             return res.status(404).send({
-    //                 message: "Not found with name " + req.params.name
-    //             });                
-    //         }
-    //         return res.status(500).send({
-    //             message: "Error retrieving with name " + req.params.name
-    //         });
-    //     });
-
-        //end
-
-    // Find person and update with the request body
-    //old 
-
-    // Person.findByIdAndUpdate(req.params.name, {
-    //     name: req.body.name || "Anon",
-    //     played: req.body.played || 0,
-    //     won: req.body.won || 0
-    // }, {new: true})
-    // .then(person => {
-    //     if(!person) {
-    //         return res.status(404).send({
-    //             message: "Not found with name " + req.params.name
-    //         });
-    //     }
-    //     res.send(person);
-    // }).catch(err => {
-    //     if(err.kind === 'ObjectName') {
-    //         return res.status(404).send({
-    //             message: "Not found with name " + req.params.name
-    //         });                
-    //     }
-    //     return res.status(500).send({
-    //         message: "Error updating with name " + req.params.name
-    //     });
-    // });
 };
 
-// Delete a person with the specified name in the request
 exports.delete = (req, res) => {
-    Person.findByIdAndRemove(req.params.name)
-    .then(person => {
-        if(!person) {
-            return res.status(404).send({
-                message: "Not found with name " + req.params.name
-            });
-        }
-        res.send({message: "Deleted successfully!"});
-    }).catch(err => {
-        if(err.kind === 'ObjectName' || err.name === 'NotFound') {
-            return res.status(404).send({
-                message: "Not found with name " + req.params.name
-            });                
-        }
-        return res.status(500).send({
-            message: "Could not delete with name " + req.params.name
-        });
-    });
+    //Person.findByIdAndRemove(req.params.name)
+    Person.findOne({name: req.params.name})
+        .then(check => {
+            if (!check) {
+                //res.send('No such person, try someone else')
+                res.status(404).send({
+                    message: "Not found with name " + req.params.name
+                });   
+            } else {
+                Person.deleteOne({name: req.params.name})
+                .then(person => {
+                    console.log(person)
+                    if(!person) {
+                        return res.status(404).send({
+                            message: "Not found with name " + req.params.name
+                        });
+                    }
+                    res.send({message: "Deleted successfully!"});
+                }).catch(err => {
+                    if(err.kind === 'ObjectName' || err.name === 'NotFound') {
+                        return res.status(404).send({
+                            message: "Not found with name " + req.params.name
+                        });                
+                    }
+                    return res.status(500).send({
+                        message: "Could not delete with name " + req.params.name
+                    });
+                });
+            }
+        })
 };

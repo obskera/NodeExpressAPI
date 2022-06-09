@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors')
 const ejs = require('ejs') 
 const fetch = require('fetch')
-const nodeFetch = require('node-fetch')
+//const nodeFetch = require('node-fetch')
 
 // create express app
 const app = express();
@@ -46,8 +46,8 @@ app.get('/', (req, res) => {
     fetch('https://beetle-app-api.herokuapp.com/people')
     .then(all => {
         //render index ejs page as html and send
-        //res.render('index.ejs', {all: all})
-        res.json({"test": "Success"})
+        res.render('index.ejs', {all: all})
+        //res.json({"test": "Success"})
       })
 });
 

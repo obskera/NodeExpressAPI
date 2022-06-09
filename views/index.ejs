@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beetle Reporting App</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+</head>
+
+<body>
+    <h1>Beetle Reporting App</h1>
+    
+    <section id="people">
+        <ul id="peopleDisplay"></ul>
+    </section>
+
+    <section id="report">
+
+    </section>
+
+    <section id="add">
+        <h2>Add/Edit Players</h2>
+        <p>Note: Names are case sensitive.</p>
+        <form action="/people" method="POST" id="createNew">
+            <input type="text" placeholder="Name" name="name" id="newName">
+            <input type="text" placeholder="Played" name="played" id="newPlayed">
+            <input type="text" placeholder="Won" name="won" id="newWon">
+            <button name="button" type="button" id="createNewButton">Add (New Player)</button>
+            <button name="button2" type="button" id="updatePlayer">Update (Existing Player)</button>
+            <button name="button3" type="button" id="deletePlayer">Delete Player</button>
+        </form>
+    </section>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>

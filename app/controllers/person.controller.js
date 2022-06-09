@@ -46,7 +46,7 @@ exports.create = async (req, res) => {
                 if (!arr.includes(req.body.name)) {
                     makeAndSave()
                 } else {
-                    res.send("Oops, that name is already in the database, please use another")
+                    res.send("duplicate name")
                 }
             })
     }

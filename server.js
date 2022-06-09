@@ -1,11 +1,16 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors')
+const ejs = require('ejs') 
 
 // create express app
 const app = express();
 
 app.use(cors())
+
+//set EJS as view engine e.g. res.render('index.ejs', {object: objectData}), make sure to get db data first and set as object
+app.set('view engine', 'ejs')
+
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }))
 
@@ -34,7 +39,13 @@ mongoose.connect(dbConfig.url, {
 
 // define a simple route
 app.get('/', (req, res) => {
-    res.json({"message": "Welcome to Beetle Reporting application. Organize and keep track of your league players."});
+    //res.json({"message": "Welcome to Beetle Reporting application. Organize and keep track of your league players."});
+    //fetch all people and put in all variable
+    fetch('https://beetle-app-api.herokuapp.com/people')
+    .then(all => {
+        //render index ejs page as html and send
+        res.render('index.ejs', {all: all})
+      })
 });
 
 // Require Notes routes
@@ -47,3 +58,6 @@ const PORT = 8000
 app.listen(process.env.PORT || PORT, () => {
     console.log(`Server is running on port ${PORT}, you better go catch it!`);
 });
+
+//set default css/js/images to public folder
+app.use(express.static('public'))

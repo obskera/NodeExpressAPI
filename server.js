@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors')
 const ejs = require('ejs') 
 const fetch = require('fetch')
+const nodeFetch = require('node-fetch')
 
 // create express app
 const app = express();

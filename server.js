@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors')
 const ejs = require('ejs') 
+const fetch = require('fetch')
 
 // create express app
 const app = express();

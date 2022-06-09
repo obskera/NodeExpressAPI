@@ -45,7 +45,7 @@ app.get('/', (req, res) => {
     .then(all => {
         //render index ejs page as html and send
         //res.render('index.ejs', {all: all})
-        res.sendFile('index.html')
+        res.json({"test": "Success"})
       })
 });
 

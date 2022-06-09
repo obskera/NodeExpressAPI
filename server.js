@@ -44,7 +44,8 @@ app.get('/', (req, res) => {
     fetch('https://beetle-app-api.herokuapp.com/people')
     .then(all => {
         //render index ejs page as html and send
-        res.render('index.ejs', {all: all})
+        //res.render('index.ejs', {all: all})
+        res.sendFile(__dirname + '/public/index.html')
       })
 });
 

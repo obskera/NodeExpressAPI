@@ -89,6 +89,7 @@ class People {
             //stuff before event loop does junk
 
             document.querySelector('#reportLoad').style.display = "block";
+            alert("BeetleHelper: OK, I updated the player standings with that reported information.")
             location.reload()
     }
     async getPerson(name) {

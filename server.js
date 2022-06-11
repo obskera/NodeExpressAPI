@@ -43,7 +43,7 @@ app.get('/', (req, res) => {
     const response = await fetch('https://beetle-app-api.herokuapp.com/people');
     const data = await response.json();
 
-    res.render('index.ejs', {all: all})
+    res.render('index.ejs', {all: data})
     console.log(data);
     //res.json({"message": "Welcome to Beetle Reporting application. Organize and keep track of your league players."});
     //fetch all people and put in all variable

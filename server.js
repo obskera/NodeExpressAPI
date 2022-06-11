@@ -39,7 +39,7 @@ mongoose.connect(dbConfig.url, {
 });
 
 // define a simple route
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
     const response = await fetch('https://beetle-app-api.herokuapp.com/people');
     const data = await response.json();
 

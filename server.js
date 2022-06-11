@@ -2,8 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors')
 const ejs = require('ejs') 
-const fetch = require('fetch')
-//const nodeFetch = require('node-fetch')
+const fetch = require('node-fetch')
 
 // create express app
 const app = express();
@@ -41,14 +40,19 @@ mongoose.connect(dbConfig.url, {
 
 // define a simple route
 app.get('/', (req, res) => {
+    const response = await fetch('https://beetle-app-api.herokuapp.com/people');
+    const data = await response.json();
+
+    res.render('index.ejs', {all: all})
+    console.log(data);
     //res.json({"message": "Welcome to Beetle Reporting application. Organize and keep track of your league players."});
     //fetch all people and put in all variable
-    fetch('https://beetle-app-api.herokuapp.com/people')
-    .then(all => {
-        //render index ejs page as html and send
-        res.render('index.ejs', {all: all})
-        //res.json({"test": "Success"})
-      })
+
+    // fetch('https://beetle-app-api.herokuapp.com/people')
+    // .then(all => {
+    //     //render index ejs page as html and send
+    //     res.render('index.ejs', {all: all})
+    //   })
 });
 
 // Require Notes routes

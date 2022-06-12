@@ -36,18 +36,21 @@ class People {
         reportedNamesArr.forEach(name => {
             if (allNamesArr.indexOf(name) === -1) {
                 namesAllExist = false
-                console.log('We got a problem with one of the names, boss!')
-                alert("BeetleHelper: We got a problem with one of the names, boss! Please check the names entered and try again. (They are all case sensitive, and you have to enter all 4 names AND a winner.)")
+                return false
             } else {
                 console.log('All good here boss!')
             }
         })
+        if (!namesAllExist) {
+            console.log('We got a problem with one of the names, boss!')
+                alert("BeetleHelper: We got a problem with one of the names, boss! Please check the names entered and try again. (They are all case sensitive, and you have to enter all 4 names AND a valid winner.)")
+        }
         return namesAllExist
     }
     //current 
     async reportGame() {
-        const status = this.checkNamesEntered()
-        if (!status) { return "UhOh" }
+        let status = await this.checkNamesEntered()
+        if (!status) { return }
             const names = this.getReportedNames()
             const p1 = names[0]
             const p2 = names[1]
@@ -56,13 +59,38 @@ class People {
             const winner = names[4]
 
             const playedUpdateArr = [p1, p2, p3, p4]
-            
-            //p1 set timeout may break it
+            //check for duplicate names, and that winner is in names entered, index 0-3 are players, index 4 is the winner (which should be one of the four players)
+            let winnerPresent = false
+            let checkErrors = ["BeetleHelper: You entered a duplicate player in the player area. The only duplicatename should be the reported winner. Please check the names you entered and try again.", "BeetleHelper: The winner you reported doesn't match any of the four players you entered, please check the information you provided and try again."]
+            let displayError = false
+            playedUpdateArr.forEach(name => {
+                let checkName = playedUpdateArr.indexOf(name)
+                if (checkName < 0) {
+                    status = false
+                    displayError = checkErrors[0]
+                    return "uhoh it broke due to a duplicate"
+                  }
+            })
+            if(playedUpdateArr.indexOf(winner) < 0) {
+                console.log("checking winner is one of players")
+                status = false
+                displayError = checkErrors[1]
+                console.log(displayError)
+                alert(displayError)
+                return "uhoh it broke due to invalid winner"
+            }
+            if (displayError) {
+                console.log(displayError)
+                alert(displayError)
+                return
+            }
+            if (status) {
+                   //p1 set timeout may break it
             let one = await this.getPerson(p1)
-                .then( res => {
-                    console.log(res)
-                    this.putPerson(res[0], (res[1] + 1), res[2])
-                })
+            .then( res => {
+                console.log(res)
+                this.putPerson(res[0], (res[1] + 1), res[2])
+            })
             // //p2
             let two = await this.getPerson(p2)
                 .then(res => { 
@@ -91,6 +119,8 @@ class People {
             document.querySelector('#reportLoad').style.display = "block";
             alert("BeetleHelper: OK, I updated the player standings with that reported information.")
             location.reload()
+        }
+         
     }
     async getPerson(name) {
         const all = await fetch(`https://beetle-app-api.herokuapp.com/people/${name}`)
@@ -287,8 +317,6 @@ class People {
         }
     }
 }
-
-
 
 //event listeners for buttons
 document.querySelector('#createNewButton').addEventListener('click', addPerson)

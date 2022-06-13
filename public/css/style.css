@@ -2,7 +2,8 @@
   body{
     margin: none;
     /* 'https://beetle-app-api.herokuapp.com/public/images/bg.png' */
-    background-image:  url('http://localhost:8080/static/images/bg.png');
+    /* background-image:  url('http://localhost:8080/static/images/bg.png'); */
+    background-image: url('https://beetle-app-api.herokuapp.com/public/images/bg.png');
     font-size: 62.5%;
   }
   #container{

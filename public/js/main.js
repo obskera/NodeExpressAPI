@@ -167,30 +167,32 @@ class People {
             h2.appendChild(textH2)
             //add h2 to li
             li.appendChild(h2)
+            // let br = document.createElement('br')
+            // li.appendChild(br)
             //p with played
-            let playedP = document.createElement('p')
+            let playedP = document.createElement('h2')
             let textPlayed = document.createTextNode(`Played: ${this.all[i]["played"]}`)
             playedP.appendChild(textPlayed)
             li.appendChild(playedP)
             //p with won
-            let wonP = document.createElement('p')
+            let wonP = document.createElement('h2')
             let textWon = document.createTextNode(`Won: ${this.all[i]["won"]}`)
             wonP.appendChild(textWon)
             li.appendChild(wonP)
             
             if (this.all[i]["played"] > 0) {
-                let winLoss = document.createElement('p')
+                let winLoss = document.createElement('h2')
                 let textWinLoss = document.createTextNode(`Win Percentage: ${this.winLoss(this.all[i]["won"], this.all[i]["played"])}%`)
                 winLoss.appendChild(textWinLoss)
                 li.appendChild(winLoss)
             } else {
-                let winLoss = document.createElement('p')
+                let winLoss = document.createElement('h2')
                 let textWinLoss = document.createTextNode(`Win Percentage: N/A`)
                 winLoss.appendChild(textWinLoss)
                 li.appendChild(winLoss)
             }
             let deleteButton = document.createElement('button')
-            deleteButton.innerText = "X"
+            deleteButton.innerText = "Delete"
             deleteButton.id = `Delete${this.all[i]["name"]}`
             li.appendChild(deleteButton)
             li.addEventListener('click', function() {

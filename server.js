@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors')
 const ejs = require('ejs') 
 const fetch = require('node-fetch')
+const path = require('path')
 
 // create express app
 const app = express();
@@ -68,3 +69,4 @@ app.listen(process.env.PORT || PORT, () => {
 
 //set default css/js/images to public folder
 app.use(express.static('public'))
+app.use('/static', express.static(path.join(__dirname, 'public')))

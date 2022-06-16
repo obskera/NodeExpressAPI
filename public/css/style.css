@@ -349,3 +349,30 @@
   margin-left: 40%;
   margin-bottom: 1%;
 }
+#canvasArea{
+  border: none;
+}
+/* #h1{
+  flex-direction: row;
+} */
+#beetle{
+  
+  width: 100%;
+ }
+#beetleLogo{
+  text-align: center;
+  /* font-size: 1rem;
+  margin-bottom: 2%;
+  margin-top: 4%; */
+
+  width: 60%;
+    /* height: 100px; */
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.75);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(4.4px);
+    -webkit-backdrop-filter: blur(4.4px);
+    border: 1px solid rgba(175, 194, 197, 0.62);
+    
+}

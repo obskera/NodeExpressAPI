@@ -10,15 +10,20 @@
 </head>
     <body>
         <section id="container">
-            <section class="H1" id="h1">
-                    <h1>Beetle Reporting App</h1>
-                    <!-- <h1><img src="/images/cover.png" alt="Beetle Rporting"></h1> -->
+            <!-- <section class="H1" id="h1">
+                <img src="/images/beetle.png" alt="Beetle Reporting" id="beetle">
+                <h1 id="h1Text">Beetle Reporting App</h1>
+           
+            </section> -->
+            <section id="beetleLogo">
+                <img src="/images/cover.png" alt="Beetle Reporting" id="beetle">
             </section>
             
             <section class="People" id="people">
                 <ul id="peopleDisplay"></ul>
                 <button type="button" name="button" id="renderStandings">Save Standings</button>
-            </section>
+                <!-- <button name="button" type="button" id="downloadStandings">Download Standings</button>
+            </section> -->
             
             <div id="holding">
             <section class="Report" id="report">
@@ -47,6 +52,10 @@
             </div>
             
         </section>
+        <section id="canvasArea">
+			<canvas id="canvas"></canvas>
+		</section>
         <script src="/js/main.js"></script>
+        <script src="/js/canvas.js"></script>
     </body>
 </html>

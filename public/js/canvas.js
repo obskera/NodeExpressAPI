@@ -1,9 +1,7 @@
+// const { toNamespacedPath } = require("path")
+
 //new stuff
 document.querySelector('#renderStandings').addEventListener('click', onClick)
-// document.querySelector('#renderTest').addEventListener('click', _ =>{
-//     canvasToImageDownload()
-//     alert("BeetleHelper: Please check your downloads directory to find the exported standings.")
-// })
 
 //new default stuff
 let uPlayer = "PlayerX"
@@ -22,7 +20,7 @@ let c = canvas.getContext('2d');
 
 async function getAllPeople() {
     showCanvas()
-    let url = `https://beetle-app-api.herokuapp.com/people`
+    let url = stringBase.allPeopleURL
     await fetch(url)
         .then( response => response.json())
         .then (data => {
@@ -38,7 +36,7 @@ async function getAllPeople() {
                     heightMultiplyer(height)
                 })
             canvasToImageDownload()
-            alert("BeetleHelper: Please allow the download to save the standings as an image, then check your downloads directory to find the exported standings.")
+            toast.show(stringBase.downloadStarted, stringBase.s, 8000)
         })
     //hideCanvas()
     location.reload()
@@ -63,7 +61,6 @@ function drawPlayers(item, index, height) {
     let n3 = height[2]
     let n4 = height[3]
 
-        // console.log(item)
         uPlayer = item["name"]
         uPlayed = `Played: ${item["played"]}`
         uWon = `Won: ${item["won"]}`

@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width">
     <title>Beetle Reporting App</title>
     <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/toast/toast.css" />
 </head>
     <body>
         <section id="container">
@@ -28,7 +29,7 @@
             <div id="holding">
             <section class="Report" id="report">
                 <h2>Report 4-Player Game</h2>
-                <p>Note: Names are case sensitive, if ANY cannot be found, it will return an error message.</p>
+                <p>(Names are case sensitive)</p>
                     <input type="text" placeholder="Player1" name="player1" id="player1"><br>
                     <input type="text" placeholder="Player2" name="player2" id="player2"><br>
                     <input type="text" placeholder="Player3" name="player3" id="player3"><br>
@@ -39,14 +40,14 @@
 
             <section class="Add\/Remove" id="add">
                 <h2>Add/Edit Players</h2>
-                <p>Note: Names are case sensitive.</p>
+                <p>(Names are case sensitive)</p>
                 <form action="/people" method="POST" id="createNew">
                     <input type="text" placeholder="Name" name="name" id="newName"><br>
                     <input type="text" placeholder="Played" name="played" id="newPlayed"><br>
                     <input type="text" placeholder="Won" name="won" id="newWon"><br>
                     <button name="button" type="button" id="createNewButton">Add (New Player)</button> <br>
                     <button name="button2" type="button" id="updatePlayer">Update (Existing Player)</button><br>
-                    <button name="button3" type="button" id="deletePlayer">Delete Player</button>
+                    <!-- <button name="button3" type="button" id="deletePlayer">Delete Player</button> -->
                 </form>
             </section>
             </div>
@@ -55,7 +56,14 @@
         <section id="canvasArea">
 			<canvas id="canvas"></canvas>
 		</section>
+
+        <!-- <div class="toast">Sample toast message</div> -->
+
+        <script src="/js/stringBase.js"></script>
+        <script src="/toast/toast.js"></script>
         <script src="/js/main.js"></script>
         <script src="/js/canvas.js"></script>
+       
+
     </body>
 </html>

@@ -1,5 +1,9 @@
 // const { json } = require("express/lib/response")
 
+// const { string } = require("i/lib/util")
+
+// const { string } = require("i/lib/util")
+
 // //const $ = ($) => `document.querySelector(${$})`
 class People {
     constructor(all) {
@@ -19,7 +23,7 @@ class People {
         return arr
     }
     async getAllNames() {
-        const all = await fetch('https://beetle-app-api.herokuapp.com/people')
+        const all = await fetch(stringBase.allPeopleURL)
         //arr of objects
         const data = await all.json();
         let arr = []
@@ -38,12 +42,14 @@ class People {
                 namesAllExist = false
                 return false
             } else {
-                console.log('All good here boss!')
+                console.log(stringBase.OlKorrect)
             }
         })
         if (!namesAllExist) {
-            console.log('We got a problem with one of the names, boss!')
-                alert("BeetleHelper: We got a problem with one of the names, boss! Please check the names entered and try again. (They are all case sensitive, and you have to enter all 4 names AND a valid winner.)")
+            console.log(stringBase.nameError)
+                //ZZX Replace
+                toast.show(stringBase.nameError, stringBase.e)
+                //alert(stringBase.nameError)
         }
         return namesAllExist
     }
@@ -59,36 +65,40 @@ class People {
             const winner = names[4]
 
             const playedUpdateArr = [p1, p2, p3, p4]
-            //check for duplicate names, and that winner is in names entered, index 0-3 are players, index 4 is the winner (which should be one of the four players)
+            //check for duplicate names, and that winner is in names entered, 
+            //index 0-3 are players, index 4 is the winner 
+            //(which should be one of the four players)
             let winnerPresent = false
-            let checkErrors = ["BeetleHelper: You entered a duplicate player in the player area. The only duplicatename should be the reported winner. Please check the names you entered and try again.", "BeetleHelper: The winner you reported doesn't match any of the four players you entered, please check the information you provided and try again."]
+            let checkErrors = [stringBase.duplicatePlayer, stringBase.invalidWinner]
             let displayError = false
             playedUpdateArr.forEach(name => {
                 let checkName = playedUpdateArr.indexOf(name)
                 if (checkName < 0) {
                     status = false
                     displayError = checkErrors[0]
-                    return "uhoh it broke due to a duplicate"
+                    return stringBase.somethingWrong
                   }
             })
             if(playedUpdateArr.indexOf(winner) < 0) {
-                console.log("checking winner is one of players")
+                //console.log("checking winner is one of players")
                 status = false
                 displayError = checkErrors[1]
                 console.log(displayError)
-                alert(displayError)
-                return "uhoh it broke due to invalid winner"
+                //alert(displayError)
+                toast.show(displayError, stringBase.e)
+                return stringBase.somethingWrong
             }
             if (displayError) {
                 console.log(displayError)
-                alert(displayError)
+                toast.show(displayError, stringBase.e)
+                //alert(displayError)
                 return
             }
             if (status) {
                    //p1 set timeout may break it
             let one = await this.getPerson(p1)
             .then( res => {
-                console.log(res)
+                //console.log(res)
                 this.putPerson(res[0], (res[1] + 1), res[2])
             })
             // //p2
@@ -117,33 +127,34 @@ class People {
             //stuff before event loop does junk
 
             document.querySelector('#reportLoad').style.display = "block";
-            alert("BeetleHelper: OK, I updated the player standings with that reported information.")
+            //alert(stringBase.updatedStandings)
+            toast.show(stringBase.updatedStandings, stringBase.s)
             location.reload()
         }
          
     }
     async getPerson(name) {
-        const all = await fetch(`https://beetle-app-api.herokuapp.com/people/${name}`)
+        const all = await fetch(stringBase.singlePerson(name))
         const data = await all.json();
         let stripped = [data["name"], data["played"], data["won"]]
         return stripped
     }
 
     async putPerson(name, played, won) {
-        const url = `https://beetle-app-api.herokuapp.com/people/${name}`
+        const url = stringBase.singlePerson(name)
 
         try{
             const response = await fetch(url, {method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({'name': name,'played': played,'won': won})
             })
             const data = await response.json()
-            console.log(data)
+            // console.log(data)
             people.logs.push(data)
-            console.log("BeetleHelper: I updated that player with the information you gave me.")
+            console.log(stringBase.updatedPlayer)
             //location.reload()
         } catch(err) {
             console.log(err)
             people.errors.push(err)
-            console.log("Beetle Helper: Uh Oh! I couldn't find them, or something went wrong. Double check what you entered and try again")
+            console.log(stringBase.somethingWrong)
         }
     }
     
@@ -203,30 +214,39 @@ class People {
     }
     //create new person
     async addPerson() {
-        const url = 'https://beetle-app-api.herokuapp.com/people'
+        const url = stringBase.allPeopleURL
         const name = document.querySelector('#newName').value
         const played = document.querySelector('#newPlayed').value
         const won = document.querySelector('#newWon').value
-    
-        try{
-            const response = await fetch(url, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({'name': name,'played': played,'won': won})
-            })
-            const data = await response.json()
-            console.log(data)
-            people.logs.push(data)
-            alert("BeetleHelper: I added that player with the information you gave me.")
-            location.reload()
-        } catch(err) {
-            console.log(err)
-            people.errors.push(err)
-            alert("Beetle Helper: Uh Oh! That name is taken. I can't use duplicate names, please try a different name")
+        if (!name) {
+            //alert(stringBase.nameError)
+            toast.show(stringBase.nameError, stringBase.e)
+            console.log(stringBase.nameError)
+            return stringBase.nameError
+        } else {
+            try{
+                const response = await fetch(url, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({'name': name,'played': played,'won': won})
+                })
+                const data = await response.json()
+                //console.log(data)
+                people.logs.push(data)
+                //alert(stringBase.playerAdded)
+                toast.show(stringBase.playerAdded, stringBase.s)
+                location.reload()
+            } catch(err) {
+                console.log(err)
+                people.errors.push(err)
+                //alert(stringBase.nameTaken)
+                toast.show(stringBase.nameTaken, stringBase.e)
+            }
         }
     }
+       
     //for display button
     async deletePerson2(name) {
-        const url = `https://beetle-app-api.herokuapp.com/people/${name}`
+        const url = stringBase.singlePerson(name)
     
-        const confirmation = prompt('BeetleHelper: Are you sure you want to delete them? Please enter their name again (case sensitive) and click ok to confirm delete', 'No')
+        const confirmation = prompt(stringBase.confirmDelete(name), '')
     
         if (confirmation === name) {
             try{
@@ -234,24 +254,27 @@ class People {
                 })
                 const data = await response.json()
                 //console.log(data)
-                alert("BeetleHelper: OK, I deleted them.")
+                //alert(stringBase.playerDeleted)
+                toast.show(stringBase.playerDeleted, stringBase.s)
                 location.reload()
                 
             } catch(err) {
                 console.log(err)
             }
         } else {
-            alert("BeetleHelper: Whew! Name didn't match, or you hit cancel; delete cancelled.")
+            //alert(stringBase.deleteCanceled)
+            toast.show(stringBase.deleteCanceled, stringBase.e)
         }
     }
     //delete person by input name
+    //changed
     async deletePerson() {
         const name = document.querySelector('#newName').value
         const played = document.querySelector('#newPlayed').value
         const won = document.querySelector('#newWon').value
-        const url = `https://beetle-app-api.herokuapp.com/people/${name}`
+        const url = stringBase.singlePerson(name)
     
-        const confirmation = prompt('BeetleHelper: Are you sure you want to delete them? Please enter their name again (case sensitive) and click ok to confirm delete', 'No')
+        const confirmation = prompt(stringBase.confirmDelete(name), '')
     
         if (confirmation === name) {
             try{
@@ -259,14 +282,16 @@ class People {
                 })
                 const data = await response.json()
                 //console.log(data)
-                alert("BeetleHelper: OK, I deleted them.")
+                //alert(stringBase.playerDeleted)
+                toast.show(stringBase.playerDeleted, stringBase.s)
                 location.reload()
                 
             } catch(err) {
                 console.log(err)
             }
         } else {
-            alert("BeetleHelper: Whew! Name didn't match, or you hit cancel; delete cancelled.")
+            //alert(stringBase.deleteCanceled)
+            toast.show(stringBase.deleteCanceled, stringBase.e)
         }
     }
     //find person by name and update by input
@@ -274,62 +299,75 @@ class People {
         const name = document.querySelector('#newName').value
         const played = document.querySelector('#newPlayed').value
         const won = document.querySelector('#newWon').value
-        const url = `https://beetle-app-api.herokuapp.com/people/${name}`
-        
-        try{
-            if (played && won) {
-                const response = await fetch(url, {method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({'name': name,'played': played,'won': won})
-                })
-            
-                const data = await response.json()
-                console.log(data)
-                if (data[0] === "Successfully updated!") {
-                    alert("BeetleHelper: OK, I updated their entry.")
-                } else { alert("BeetleHelper: Something went wrong, please check that you entered the name correctly (it's case sensitive).") }
-            } else if (played && !won) {
-                const response = await fetch(url, {method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({'name': name,'played': played})
-                })
-            
-                const data = await response.json()
-                console.log(data)
-                if (data[0] === "Successfully updated!") {
-                    alert("BeetleHelper: OK, I updated their entry.")
-                    // let userAlert = new AlertSystem() 
-                    // userAlert.alert(userAlert.messages.somethingWrong)
-                    // - octoshrimpy
-                } else { alert("BeetleHelper: Something went wrong, please check that you entered the name correctly (it's case sensitive).") }
-            } else if (!played && won) {
-                // let dbapi = new DbApi()
-                // let obj = {'name': name,'won': won}
-                // const response = await dbApi.put(JSON.stringify(obj))
-                const response = await fetch(url, {method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({'name': name,'won': won})
-                })
-                const data = await response.json()
-                console.log(data)
-                if (data[0] === "Successfully updated!") {
-                    alert("BeetleHelper: OK, I updated their entry.")
-                } else { alert("BeetleHelper: Something went wrong, please check that you entered the name correctly (it's case sensitive).") }
-            } else if (!played && !won) {
-                const response = await fetch(url, {method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({'name': name})
-                })
-                const data = await response.json()
-                console.log(data)
-                if (data[0] === "Successfully updated!") {
-                    alert("BeetleHelper: You didn't enter anything to change, so I just reloaded their data.")
-                } else { alert("BeetleHelper: Something went wrong, please check that you entered the name correctly (it's case sensitive).") }
+        const url = stringBase.singlePerson(name)
+        //new Stuff may break
+        if (!name) { 
+            console.log(stringBase.nameError)
+            //alert(stringBase.nameError)
+            toast.show(stringBase.nameError, stringBase.e)
+            return stringBase.nameError
+        } else {
+            try{
+                if (played && won) {
+                    const response = await fetch(url, {method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({'name': name,'played': played,'won': won})
+                    })
+                
+                    const data = await response.json()
+                    //console.log(data)
+                    if (data[0] === "Successfully updated!") {
+                        //alert(stringBase.updatedPlayer)
+                        toast.show(stringBase.updatedPlayer, stringBase.s)
+                    } else { toast.show(stringBase.nameError, stringBase.e)}
+                } else if (played && !won) {
+                    const response = await fetch(url, {method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({'name': name,'played': played})
+                    })
+                
+                    const data = await response.json()
+                    //console.log(data)
+                    if (data[0] === "Successfully updated!") {
+                        //alert(stringBase.updatedPlayer)
+                        toast.show(stringBase.updatedPlayer, stringBase.s)
+                        // let userAlert = new AlertSystem() 
+                        // userAlert.alert(userAlert.messages.somethingWrong)
+                        // - octoshrimpy
+                    } else { toast.show(stringBase.nameError, stringBase.e) }
+                } else if (!played && won) {
+                    // let dbapi = new DbApi()
+                    // let obj = {'name': name,'won': won}
+                    // const response = await dbApi.put(JSON.stringify(obj))
+                    const response = await fetch(url, {method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({'name': name,'won': won})
+                    })
+                    const data = await response.json()
+                    //console.log(data)
+                    if (data[0] === "Successfully updated!") {
+                        //alert(stringBase.updatedPlayer)
+                        toast.show(stringBase.updatedPlayer, stringBase.s)
+                    } else { toast.show(stringBase.nameError, stringBase.e) }
+                } else if (!played && !won) {
+                    const response = await fetch(url, {method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({'name': name})
+                    })
+                    const data = await response.json()
+                    //console.log(data)
+                    if (data[0] === "Successfully updated!") {
+                        // alert(stringBase.noDataToUpdate)
+                        toast.show(stringBase.noDataToUpdate, stringBase.e)
+                    } else { toast.show(stringBase.nameError, stringBase.e) }
+                }
+                location.reload()
+            } catch(err) {
+                toast.show(stringBase.nameError, stringBase.e)
+                //alert(stringBase.nameError)
+                console.log(err)
             }
-            location.reload()
-        } catch(err) {
-            alert("BeetleHelper: I wasn't able to find/update based on that name. Please check that you entered an already created name (it's case sensitive).")
-            console.log(err)
         }
+       
     }
 }
 
 //event listeners for buttons
 document.querySelector('#createNewButton').addEventListener('click', addPerson)
 document.querySelector('#updatePlayer').addEventListener('click', updatePerson)
-document.querySelector('#deletePlayer').addEventListener('click', deletePerson)
+// document.querySelector('#deletePlayer').addEventListener('click', deletePerson)
 document.querySelector('#reportGameButton').addEventListener('click', reportGame)
 //add a new person fetch
 async function reportGame() {
@@ -348,7 +386,7 @@ async function deletePerson2(name) {
     people.deletePerson2(name)
 }
 async function loadJS() {
-    await fetch('https://beetle-app-api.herokuapp.com/people')
+    await fetch(stringBase.allPeopleURL)
     .then(res => res.json())
     .then(data => {
         people = new People(data)

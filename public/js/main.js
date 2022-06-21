@@ -294,8 +294,14 @@ class People {
                 console.log(data)
                 if (data[0] === "Successfully updated!") {
                     alert("BeetleHelper: OK, I updated their entry.")
+                    // let userAlert = new AlertSystem() 
+                    // userAlert.alert(userAlert.messages.somethingWrong)
+                    // - octoshrimpy
                 } else { alert("BeetleHelper: Something went wrong, please check that you entered the name correctly (it's case sensitive).") }
             } else if (!played && won) {
+                // let dbapi = new DbApi()
+                // let obj = {'name': name,'won': won}
+                // const response = await dbApi.put(JSON.stringify(obj))
                 const response = await fetch(url, {method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({'name': name,'won': won})
                 })
                 const data = await response.json()

@@ -92,7 +92,7 @@ class People {
                 console.log(displayError)
                 toast.show(displayError, stringBase.e)
                 //alert(displayError)
-                return
+                return displayError
             }
             if (status) {
                    //p1 set timeout may break it
@@ -125,8 +125,9 @@ class People {
                     this.putPerson(res[0], res[1], (res[2] + 1))
                 })
             //stuff before event loop does junk
-
-            document.querySelector('#reportLoad').style.display = "block";
+                //CHANGES
+            //document.querySelector('#reportLoad').style.display = "block";
+            document.querySelector('#reportGameButton').getElementsByClassName.display = "block";
             //alert(stringBase.updatedStandings)
             toast.show(stringBase.updatedStandings, stringBase.s)
             location.reload()

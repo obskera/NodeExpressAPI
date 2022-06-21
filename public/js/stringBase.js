@@ -19,6 +19,7 @@ class StringBase {
     playerAdded = "Player added."
     nameTaken = "Name taken, please enter a unique name."
     nameNeeded = "Please enter a name."
+    workingOnIt = "Updating Standings . . ."
     confirmDelete = (name) => {
         return `Please type > ${name} < below to confirm deletion.`
     }

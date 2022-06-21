@@ -55,6 +55,7 @@ class People {
     }
     //current 
     async reportGame() {
+        toast.show(stringBase.workingOnIt, stringBase.s)
         let status = await this.checkNamesEntered()
         if (!status) { return }
             const names = this.getReportedNames()

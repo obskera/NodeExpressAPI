@@ -37,9 +37,16 @@ async function getAllPeople() {
                 })
             canvasToImageDownload()
             toast.show(stringBase.downloadStarted, stringBase.s, 8000)
+            // drawPlayer()
+        })
+        .then(_ => {
+            setTimeout(() => {
+                console.log('reload page delay')
+                location.reload()
+            }, 2000)
         })
     //hideCanvas()
-    location.reload()
+    
 }
 
 function setPlayerInfo(obj) {
@@ -182,7 +189,7 @@ function fontSetterAvenirnext(size = 12) {
 async function onClick() {
     // await showCanvas()
     // setTimeout()
-    await getAllPeople()  
+    await getAllPeople()
 }
 async function hideCanvas() { document.querySelector('#canvas').style.display = 'none' }
 async function showCanvas() { document.querySelector('#canvas').style.display = 'block' }

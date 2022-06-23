@@ -1,3 +1,45 @@
+#renderStandings{
+  align-self: center;
+  text-align: center;
+  margin-left: 40%;
+  margin-bottom: 1%;
+}
+#canvasArea{
+  border: none;
+}
+/* #h1{
+  flex-direction: row;
+} */
+#beetle{
+  height: 150px;
+/* width: 100%; */
+}
+#beetleLogo{
+  text-align: center;
+  /* font-size: 1rem;
+  margin-bottom: 2%;
+  margin-top: 4%; */
+  /* height: 100px; */
+  width: 30%;
+  /* height: 80px; */
+  /* width: 90%; */
+    /* height: 100px; */
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.75);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(4.4px);
+    -webkit-backdrop-filter: blur(4.4px);
+    border: 1px solid rgba(175, 194, 197, 0.62);
+    
+}
+button{
+  color: black;
+}
+canvas{
+  position: fixed;
+  left: 200vw;
+}
 @media screen and (min-width: 1101px) {
   body{
     margin: none;
@@ -114,6 +156,10 @@
     left: 200vw;
   }
 }
+button{
+  color: black;
+}
+
 @media screen and (max-Width: 1100px) {
   body{
     margin: none;
@@ -232,6 +278,14 @@
     margin: 2%;
   }
 }
+button{
+  color: black;
+}
+canvas{
+  position: fixed;
+  left: 200vw;
+}
+
 @media screen and (max-width: 540px) {
   body{
     margin: none;
@@ -352,37 +406,26 @@
   li *{
     margin: 2%;
   }
-}
-#renderStandings{
-  align-self: center;
-  text-align: center;
-  margin-left: 40%;
-  margin-bottom: 1%;
-}
-#canvasArea{
-  border: none;
-}
-/* #h1{
-  flex-direction: row;
-} */
-#beetle{
-  /* height: 100px; */
-  width: 100%;
- }
-#beetleLogo{
-  text-align: center;
-  /* font-size: 1rem;
-  margin-bottom: 2%;
-  margin-top: 4%; */
-  /* height: 100px; */
-  width: 30%;
+  #beetle{
+    height: 150px;
+  /* width: 100%; */
+  }
+  #beetleLogo{
+    text-align: center;
+    /* font-size: 1rem;
+    margin-bottom: 2%;
+    margin-top: 4%; */
     /* height: 100px; */
-    /* From https://css.glass */
-    background: rgba(255, 255, 255, 0.75);
-    border-radius: 16px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(4.4px);
-    -webkit-backdrop-filter: blur(4.4px);
-    border: 1px solid rgba(175, 194, 197, 0.62);
-    
+    width: 90%;      
+  }
+  #holding{
+    margin-left: 2.4%;
+  }
+  #people{
+    margin-left: 2.4%;
+  }
+  #peopleDisplay{
+    padding-left: 2.4%;
+  }
 }
+

@@ -427,5 +427,17 @@ canvas{
   #peopleDisplay{
     padding-left: 2.4%;
   }
+  #downloadButtonArea{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+  #renderStandings{
+    width: 70%;
+    margin: 1%;
+    justify-content: center;
+    text-justify: center;
+    text-align: center;
+  }
 }
 

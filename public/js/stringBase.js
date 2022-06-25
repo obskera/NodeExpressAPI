@@ -28,7 +28,7 @@ class StringBase {
     noDataToUpdate = "No data entered to update"
 
     //URLS
-    allPeopleURL = `https://beetle-app-api.herokuapp.com/people`
+    allPeopleURL = `https://beetle-reporting.herokuapp.com/people`
     singlePerson = (name) => {
         return `${this.allPeopleURL}/${name}`
     }

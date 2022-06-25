@@ -18,12 +18,33 @@ let canvasHeight = 192;
 let canvas = document.querySelector('canvas')
 let c = canvas.getContext('2d');
 
+const sortByObjName = arrOfObj => {
+    function compare(a, b) {
+        // Use toUpperCase() to ignore character casing
+        //be wary that json format may require [""] bracket notation
+        const objA = a.name.toUpperCase();
+        const objB = b.name.toUpperCase();
+      
+        let comparison = 0;
+        if (objA > objB) {
+          comparison = 1;
+        } else if (objA < objB) {
+          comparison = -1;
+        }
+        return comparison;
+      }
+      return arrOfObj.sort(compare)
+} 
+
 async function getAllPeople() {
     showCanvas()
     let url = stringBase.allPeopleURL
     await fetch(url)
         .then( response => response.json())
         .then (data => {
+            //apply alphabetical sort
+            data = sortByObjName(data)
+            //set data
             standingsArr = data
             canvasHeight = (canvasHeight * standingsArr.length) + 40
             canvas.height = canvasHeight

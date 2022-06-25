@@ -9,8 +9,27 @@ class People {
     constructor(all) {
         this.all = all
     }
+    testArr = ["Bob", "Player1", "Allen"]
     errors = []
     logs = []
+    //Sort Function Alphabetical
+    sortByObjName(arrOfObj) {
+        function compare(a, b) {
+            // Use toUpperCase() to ignore character casing
+            //be wary that json format may require [""] bracket notation
+            const objA = a.name.toUpperCase();
+            const objB = b.name.toUpperCase();
+          
+            let comparison = 0;
+            if (objA > objB) {
+              comparison = 1;
+            } else if (objA < objB) {
+              comparison = -1;
+            }
+            return comparison;
+          }
+          return arrOfObj.sort(compare)
+    } 
     //render database contents on page
     getReportedNames() {
         const player1 = document.querySelector('#player1').value || 'empty'
@@ -168,6 +187,8 @@ class People {
     render = () => {
         let ul = document.querySelector('#peopleDisplay')
         let i = 0
+        //sort method applied before rendering
+        this.all = this.sortByObjName(this.all)
         for (i = 0; i < this.all.length; i++) {
             const allName = this.all[i]["name"]
             //create li

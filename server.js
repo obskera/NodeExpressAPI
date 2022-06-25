@@ -45,7 +45,7 @@ mongoose.Promise = global.Promise;
 
 // define a simple route
 app.get('/', async (req, res) => {
-    const response = await fetch('https://beetle-app-api.herokuapp.com/people');
+    const response = await fetch('https://beetle-reporting.herokuapp.com/people');
     const data = await response.json();
 
     res.render('index.ejs', {all: data})

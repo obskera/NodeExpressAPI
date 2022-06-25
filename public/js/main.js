@@ -1,10 +1,6 @@
-// const { json } = require("express/lib/response")
+//secure dataBase Stuff
+// require('dotenv').config()
 
-// const { string } = require("i/lib/util")
-
-// const { string } = require("i/lib/util")
-
-// //const $ = ($) => `document.querySelector(${$})`
 class People {
     constructor(all) {
         this.all = all

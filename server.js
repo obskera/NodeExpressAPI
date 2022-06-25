@@ -4,6 +4,9 @@ const cors = require('cors')
 const ejs = require('ejs') 
 const fetch = require('node-fetch')
 const path = require('path')
+const dotenv = require('dotenv').config()
+// dotenv.config();
+let url = process.env.MONGOLAB_URI;
 
 // create express app
 const app = express();
@@ -30,7 +33,8 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 // Connecting to the database
-mongoose.connect(dbConfig.url, {
+// mongoose.connect(dbConfig.url, {
+    mongoose.connect(url, {
     useNewUrlParser: true
 }).then(() => {
     console.log("Successfully connected to the database");    
